@@ -16,13 +16,13 @@ In short, this is what you need to do:
 ### Minimal Dockerfile
 
 ```
-FROM ngx-server
+FROM scubakay/ngx-server:latest
 COPY dist /usr/share/nginx/html
 ```
 
 ### Custom NGINX config
 
-Just copy your conf file to the correct folder:
+Just copy your conf file to the correct folder if you have other config:
 
 ```
 COPY my-configuration.conf /etc/nginx/conf.d/default.conf
@@ -30,4 +30,8 @@ COPY my-configuration.conf /etc/nginx/conf.d/default.conf
 
 ### Running Angular on non-root URL
 
-TODO: Add something here
+If you are running multiple containers through a proxy container, you probably want that container to respond to 
+`localhost:80`, but the actual deploy url is for example `example.com/your-app`. Angular doesn't like this very much
+and will get resources from the wrong place, and will link to the wrong locations. To fix this add the url without
+root as an environment variable called `NGSSC_DEPLOY_URL`. Now, Angular sets the correct url to find resources and 
+it will link to the correct pages.
